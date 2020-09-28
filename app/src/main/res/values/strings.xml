@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">diplom_adn</string>
+    <string name="button">Button</string>
+    <string name="login_hint">Введите логин</string>
+    <string name="password_hint">Введите пароль</string>
+    <string name="authorization">Авторизация</string>
+    <string name="registration_btn">РЕГИСТРАЦИЯ</string>
+    <string name="login_btn">ВОЙТИ</string>
+    <string name="bad_login">Не коректный логин</string>
+    <string name="bad_password">Не коректный пароль</string>
+    <string name="please_wait">Пожалуйста подождите....</string>
+    <string name="loading_data">Загрузка данных</string>
+    <string name="google_play_unavailable">Сервесы Google не доступны</string>
+    <string name="authorisation_Error">Ошибка авторазации</string>
+    <string name="falien_connect">Ошибка соединенеия с сервером</string>
+    <string name="registration">Регистрация</string>
+</resources>
