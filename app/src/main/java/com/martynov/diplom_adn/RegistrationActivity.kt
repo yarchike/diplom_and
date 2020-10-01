@@ -5,9 +5,11 @@ import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.martynov.diplom_adn.data.AttachmentModel
@@ -43,7 +45,7 @@ class RegistrationActivity : AppCompatActivity() {
                         takePictureIntent.resolveActivity(packageManager)?.also {
                             startActivityForResult(
                                 takePictureIntent,
-                                Companion.REQUEST_IMAGE_CAPTURE
+                                Companion.REQUEST_CAMERA
                             )
                         }
                     }
@@ -56,7 +58,7 @@ class RegistrationActivity : AppCompatActivity() {
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                     )
 
-                    startActivityForResult(loadIntent, REQUEST_IMAGE_CAPTURE)
+                    startActivityForResult(loadIntent, REQUEST_GALLERY)
                 })
         val alert: AlertDialog = builder.create()
         alert.show()
@@ -73,28 +75,45 @@ class RegistrationActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-
-            val imageBitmap = data?.extras?.get("data") as Bitmap?
-            imageBitmap?.let {
-                lifecycleScope.launch {
-                    dialog = ProgressDialog(this@RegistrationActivity).apply {
-                        setMessage(this@RegistrationActivity.getString(R.string.please_wait))
-                        setTitle(R.string.registration)
-                        setCancelable(false)
-                        setProgressBarIndeterminate(true)
-                        show()
+        if (resultCode != RESULT_OK || data == null) {
+            return
+        }
+        val imageBitmap: Bitmap? =
+            when (requestCode) {
+                REQUEST_CAMERA -> {
+                    data.extras?.get("data") as Bitmap?
+                }
+                REQUEST_GALLERY -> {
+                    data.data?.let { uri ->
+                        contentResolver.openFileDescriptor(
+                            uri,
+                            "r"
+                        )?.use {
+                            BitmapFactory.decodeFileDescriptor(it.fileDescriptor)
+                        }
                     }
-                    val imageUploadResult = App.repository.uploadUser(it)
-                    NotifictionHelper.mediaUploaded(AttachmentType.IMAGE, this@RegistrationActivity)
-                    dialog?.dismiss()
-                    if (imageUploadResult.isSuccessful) {
-                        imageUploaded()
-                        attachmentModel = imageUploadResult.body()
-                    } else {
-                        toast("Can't upload image")
-                    }
+                }
+                else -> {
+                    null
+                }
+            }
+        imageBitmap?.let {
+            lifecycleScope.launch {
+                dialog = ProgressDialog(this@RegistrationActivity).apply {
+                    setMessage(this@RegistrationActivity.getString(R.string.please_wait))
+                    setTitle("Отправка изображения")
+                    setCancelable(false)
+                    setProgressBarIndeterminate(true)
+                    show()
+                }
+                val imageUploadResult = App.repository.uploadUser(it)
+                NotifictionHelper.mediaUploaded(AttachmentType.IMAGE, this@RegistrationActivity)
+                dialog?.dismiss()
+                if (imageUploadResult.isSuccessful) {
+                    imageUploaded()
+                    attachmentModel = imageUploadResult.body()
+                } else {
+                    toast("Не удачная загрузка фото")
                 }
             }
         }
@@ -102,6 +121,8 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val REQUEST_IMAGE_CAPTURE = 1
+        const val REQUEST_CAMERA = 0
+        const val REQUEST_GALLERY = 1
+
     }
 }
