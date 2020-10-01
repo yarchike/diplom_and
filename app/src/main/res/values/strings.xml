@@ -14,4 +14,7 @@
     <string name="authorisation_Error">Ошибка авторазации</string>
     <string name="falien_connect">Ошибка соединенеия с сервером</string>
     <string name="registration">Регистрация</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="camera">Камера</string>
+    <string name="gallerea">Галерея</string>
 </resources>
