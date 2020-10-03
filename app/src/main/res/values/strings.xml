@@ -17,4 +17,11 @@
     <string name="repeat_password">Повторите пароль</string>
     <string name="camera">Камера</string>
     <string name="gallerea">Галерея</string>
+    <string name="permission_not_given">Разрешение не дано</string>
+    <string name="username_is_incorrect">Не коректный логин</string>
+    <string name="password_is_incorrect">Не коректный пароль</string>
+    <string name="password_mismatch">Пароли не совпадают</string>
+    <string name="enter_login">Введите логин</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="enter_your_password_a_second_time">Введите пароль второй раз</string>
 </resources>

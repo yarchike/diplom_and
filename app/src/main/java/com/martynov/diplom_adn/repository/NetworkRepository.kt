@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import com.martynov.diplom_adn.api.API
 import com.martynov.diplom_adn.data.AttachmentModel
 import com.martynov.diplom_adn.data.AuthRequestParams
+import com.martynov.diplom_adn.data.RegistrationRequestParams
 import com.martynov.diplom_adn.data.Token
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -31,4 +32,9 @@ class NetworkRepository(private val api: API) : Repository {
             MultipartBody.Part.createFormData("file", "image.jpg", reqFIle)
         return api.uploadImageUser(body)
     }
+
+    override suspend fun register(login: String, password: String,attachmentModel: AttachmentModel?): Response<Token> =
+        api.register(RegistrationRequestParams(username = login, password = password, attachmentModel = attachmentModel))
+
+
 }

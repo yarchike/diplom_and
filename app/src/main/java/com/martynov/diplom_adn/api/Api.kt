@@ -2,6 +2,7 @@ package com.martynov.diplom_adn.api
 
 import com.martynov.diplom_adn.data.AttachmentModel
 import com.martynov.diplom_adn.data.AuthRequestParams
+import com.martynov.diplom_adn.data.RegistrationRequestParams
 import com.martynov.diplom_adn.data.Token
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -17,4 +18,6 @@ interface API {
         @POST("api/v1/media/user")
         suspend fun uploadImageUser(@Part file: MultipartBody.Part):
                 Response<AttachmentModel>
+        @POST("api/v1/registration")
+        suspend fun register(@Body registrationRequestParams: RegistrationRequestParams): Response<Token>
 }

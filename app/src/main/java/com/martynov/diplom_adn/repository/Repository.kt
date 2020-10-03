@@ -8,4 +8,5 @@ import retrofit2.Response
 interface Repository {
     suspend fun authenticate(login: String, password: String): Response<Token>
     suspend fun uploadUser(bitmap: Bitmap): Response<AttachmentModel>
+    suspend fun register(login: String, password: String, attachmentModel:AttachmentModel?): Response<Token>
 }

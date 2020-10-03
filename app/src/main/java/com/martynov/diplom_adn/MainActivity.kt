@@ -19,6 +19,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         title = getString(R.string.authorization)
+        if(isAuthenticated()){
+            navigateToFeed()
+            return
+        }
 
 
         btn_login.setOnClickListener {
@@ -105,5 +109,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+    private fun isAuthenticated(): Boolean =
+        getSharedPreferences(API_SHARED_FILE, Context.MODE_PRIVATE).getString(
+            AUTHENTICATED_SHARED_KEY, ""
+        )?.isNotEmpty() ?: false
 
 }
