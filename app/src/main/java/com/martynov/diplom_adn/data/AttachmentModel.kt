@@ -9,4 +9,6 @@ enum class AttachmentType {
 data class AttachmentModel(val id: String, val mediaType: AttachmentType) {
     val url
         get() = "$BASE_URL/api/v1/static/$id"
+    val urlUser
+        get() = "$BASE_URL/api/v1/static/user/$id"
 }

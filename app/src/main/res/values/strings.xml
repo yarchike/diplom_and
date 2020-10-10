@@ -24,4 +24,12 @@
     <string name="enter_login">Введите логин</string>
     <string name="enter_password">Введите пароль</string>
     <string name="enter_your_password_a_second_time">Введите пароль второй раз</string>
+    <string name="input_text_idea">Введите текст идеи</string>
+    <string name="create">Создать</string>
+    <string name="creat_new_idea">Создание новой идеи</string>
+    <string name="idea_created_successfully">Идея успешно создана</string>
+    <string name="error_occured">Ошибка</string>
+    <string name="loading_ideas">Загрузка идей</string>
+
+
 </resources>

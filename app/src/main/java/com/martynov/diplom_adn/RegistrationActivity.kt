@@ -122,7 +122,7 @@ class RegistrationActivity : AppCompatActivity() {
                     } else {
                         ActivityCompat.requestPermissions(
                             this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                            GALLERY_REQUEST
+                            REQUEST_GALLERY
                         )
                     }
                 })
@@ -189,7 +189,7 @@ class RegistrationActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         when (requestCode) {
-            GALLERY_REQUEST -> {
+            REQUEST_GALLERY -> {
                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                    val loadIntent = Intent(
                        Intent.ACTION_PICK,
