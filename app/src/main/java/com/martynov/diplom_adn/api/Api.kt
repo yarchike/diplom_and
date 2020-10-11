@@ -22,4 +22,8 @@ interface API {
         suspend fun createPost(@Body createIdeaRequest: CreateIdeaRequest): Response<Void>
         @GET("api/v1/ideas")
         suspend fun getIdea():Response<List<IdeaModel>>
+        @POST("api/v1/ideas/{id}/like")
+        suspend fun like(@Path("id")id:Long):Response<IdeaModel>
+        @POST("api/v1/ideas/{id}/dislike")
+        suspend fun disLike(@Path("id")id:Long):Response<IdeaModel>
 }

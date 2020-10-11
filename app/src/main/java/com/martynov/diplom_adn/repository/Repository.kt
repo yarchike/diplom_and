@@ -14,4 +14,6 @@ interface Repository {
     suspend fun upload(bitmap: Bitmap): Response<AttachmentModel>
     suspend fun createIdea(createIdeaRequest: CreateIdeaRequest):Response<Void>
     suspend fun getIdea(): Response<List<IdeaModel>>
+    suspend fun like(id: Long):Response<IdeaModel>
+    suspend fun disLike(id: Long):Response<IdeaModel>
 }

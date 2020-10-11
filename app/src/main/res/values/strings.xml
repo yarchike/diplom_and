@@ -30,6 +30,10 @@
     <string name="idea_created_successfully">Идея успешно создана</string>
     <string name="error_occured">Ошибка</string>
     <string name="loading_ideas">Загрузка идей</string>
+    <string name="like_in_progress">Ожидание лайка</string>
+    <string name="dis_like_in_progress">Ожидание дизлайка</string>
+    <string name="like_is">Лайк уже поставлен</string>
+    <string name="dis_like_is">Дизлайк уже поставлен</string>
 
 
 </resources>

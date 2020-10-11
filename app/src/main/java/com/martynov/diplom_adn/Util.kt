@@ -1,6 +1,7 @@
 package com.martynov.diplom_adn
 
 import android.annotation.SuppressLint
+import com.martynov.diplom_adn.model.IdeaModel
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern

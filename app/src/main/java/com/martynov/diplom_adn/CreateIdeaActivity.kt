@@ -48,7 +48,9 @@ class CreateIdeaActivity : AppCompatActivity() {
                     val result = App.repository.createIdea(
                         CreateIdeaRequest(
                             ideaText = contentEdt.text.toString(), date = date,
-                            attachment = attachmentModel
+                            attachment = attachmentModel,
+                            like = 0,
+                            disLike = 0
                         )
                     )
                     if (result.isSuccessful) {

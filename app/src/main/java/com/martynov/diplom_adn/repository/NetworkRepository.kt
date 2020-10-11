@@ -13,7 +13,8 @@ import java.io.ByteArrayOutputStream
 class NetworkRepository(private val api: API) : Repository {
     private var token: String? = null
     override suspend fun authenticate(login: String, password: String): Response<Token> {
-        token = api.authenticate(AuthRequestParams(username = login, password = password)).body()?.token
+        token =
+            api.authenticate(AuthRequestParams(username = login, password = password)).body()?.token
         return api.authenticate(AuthRequestParams(username = login, password = password))
     }
 
@@ -31,8 +32,18 @@ class NetworkRepository(private val api: API) : Repository {
         return api.uploadImageUser(body)
     }
 
-    override suspend fun register(login: String, password: String,attachmentModel: AttachmentModel?): Response<Token> =
-        api.register(RegistrationRequestParams(username = login, password = password, attachmentModel = attachmentModel))
+    override suspend fun register(
+        login: String,
+        password: String,
+        attachmentModel: AttachmentModel?
+    ): Response<Token> =
+        api.register(
+            RegistrationRequestParams(
+                username = login,
+                password = password,
+                attachmentModel = attachmentModel
+            )
+        )
 
     override suspend fun upload(bitmap: Bitmap): Response<AttachmentModel> {
         val bos = ByteArrayOutputStream()
@@ -45,11 +56,18 @@ class NetworkRepository(private val api: API) : Repository {
     }
 
     override suspend fun createIdea(
-       createIdeaRequest: CreateIdeaRequest
-    ): Response<Void>  =
+        createIdeaRequest: CreateIdeaRequest
+    ): Response<Void> =
         api.createPost(createIdeaRequest)
 
     override suspend fun getIdea(): Response<List<IdeaModel>> =
         api.getIdea()
+
+    override suspend fun like(id: Long): Response<IdeaModel> =
+        api.like(id)
+
+    override suspend fun disLike(id: Long): Response<IdeaModel> =
+        api.disLike(id)
+
 
 }

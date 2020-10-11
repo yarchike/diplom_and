@@ -4,5 +4,7 @@ data class CreateIdeaRequest(
     val id: Long = 0,
     val date: Long,
     val ideaText: String,
-    val attachment: AttachmentModel? = null
+    val attachment: AttachmentModel? = null,
+    val like: Long,
+    val disLike: Long
 )

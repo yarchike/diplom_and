@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CreateIdeaActivity"></activity>
+        <activity android:name=".LikeAndDislikeActivity"></activity>
+        <activity android:name=".CreateIdeaActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".FeedActivity" />
         <activity
