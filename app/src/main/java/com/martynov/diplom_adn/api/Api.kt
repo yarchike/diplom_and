@@ -26,4 +26,16 @@ interface API {
         suspend fun like(@Path("id")id:Long):Response<IdeaModel>
         @POST("api/v1/ideas/{id}/dislike")
         suspend fun disLike(@Path("id")id:Long):Response<IdeaModel>
+        @GET("api/v1/me")
+        suspend fun getMe():Response<AutorIdeaRequest>
+        @POST("api/v1/user/changePassword")
+        suspend fun changePassword(@Body passwordChangeRequestDto: PasswordChangeRequestDto): Response<AutorIdeaRequest>
+        @POST("api/v1/user/changeImage")
+        suspend fun changeImg(@Body attachmentModel: AttachmentModel):Response<Boolean>
+        @POST("api/v1/ideas/count")
+        suspend fun getIdeaCount(@Body idEndIdea: Long): Response<List<IdeaModel>>
+        @POST("api/v1/push")
+        suspend fun registerPushToken(@Header("Id") id:Long? , @Body pushRequestParams: PushRequestParams): Response<AutorIdeaRequest>
+        @GET("api/v1/ideas/{id}")
+        suspend fun getIdeaId(@Path("id") id: Long): Response<IdeaModel>
 }

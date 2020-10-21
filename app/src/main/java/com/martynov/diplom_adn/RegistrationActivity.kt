@@ -12,7 +12,6 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -34,7 +33,7 @@ class RegistrationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_registration)
         title = getString(R.string.registration)
 
-        attachPhotoImg.setOnClickListener {
+        attachPhotoImgSetting.setOnClickListener {
             dispatchTakePictureIntent()
 
         }
@@ -132,11 +131,11 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun imageUploaded() {
         transparetAllIcons()
-        attachPhotoDoneImg.visibility = View.VISIBLE
+        attachPhotoDoneImgSetting.visibility = View.VISIBLE
     }
 
     private fun transparetAllIcons() {
-        attachPhotoImg.setImageResource(R.drawable.ic_image_inactive)
+        attachPhotoImgSetting.setImageResource(R.drawable.ic_image_inactive)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

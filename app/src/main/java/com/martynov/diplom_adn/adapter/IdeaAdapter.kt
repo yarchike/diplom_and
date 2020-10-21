@@ -19,6 +19,12 @@ class IdeaAdapter(val listIdea: MutableList<IdeaModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var likeBtnClickListener: OnLikeBtnClickListener? = null
     var disLikeBtnClickListener: OnDisLikeBtnClickListener? = null
+    var viewingBtnClickListener:OnViewingBtnClickListener? = null
+    var autorBtnClickListener:OnAutorBtnClickListener? = null
+    var linkBtnClickListener:OnLinkBtnClickListener? = null
+
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val ideaView =
@@ -45,6 +51,21 @@ class IdeaAdapter(val listIdea: MutableList<IdeaModel>) :
     interface OnDisLikeBtnClickListener {
         fun onDisLikeBtnClicked(item: IdeaModel, position: Int)
     }
+    interface OnViewingBtnClickListener{
+        fun onViewingBtnClicked(iteam: IdeaModel)
+    }
+    interface OnAutorBtnClickListener{
+        fun onAutorBtnClicked(iteam: IdeaModel)
+    }
+    fun newRecentIdea(list: List<IdeaModel>) {
+        this.listIdea.clear()
+        this.listIdea.addAll(list)
+    }
+    interface OnLinkBtnClickListener{
+        fun onLinkBtnClickListener(iteam: IdeaModel)
+    }
+
+
 
 }
 
@@ -78,6 +99,28 @@ class IdeaViewHolder(val adapter: IdeaAdapter, view: View) : RecyclerView.ViewHo
                     )
                 }
             }
+            imageViewing.setOnClickListener {
+                val currentPosition = adapterPosition
+                if (currentPosition != RecyclerView.NO_POSITION) {
+                    val item = adapter.listIdea[currentPosition]
+                    adapter.viewingBtnClickListener?.onViewingBtnClicked(item)
+                }
+
+            }
+            imageAutor.setOnClickListener {
+                val currentPosition = adapterPosition
+                if (currentPosition != RecyclerView.NO_POSITION) {
+                    val item = adapter.listIdea[currentPosition]
+                    adapter.autorBtnClickListener?.onAutorBtnClicked(item)
+                }
+            }
+            imageLink.setOnClickListener {
+                val currentPosition = adapterPosition
+                if (currentPosition != RecyclerView.NO_POSITION) {
+                    val item = adapter.listIdea[currentPosition]
+                    adapter.linkBtnClickListener?.onLinkBtnClickListener(item)
+                }
+            }
         }
 
     }
@@ -92,6 +135,9 @@ class IdeaViewHolder(val adapter: IdeaAdapter, view: View) : RecyclerView.ViewHo
             textIdea.text = idea.ideaText
             textLike.text = idea.like.toString()
             textDisLike.text = idea.disLike.toString()
+            when{
+                idea.url != "" -> imageLink.setImageResource(R.drawable.ic_active_link)
+            }
 
             when {
                 idea.likeActionPerforming -> imageLike.setImageResource(R.drawable.like_wating)

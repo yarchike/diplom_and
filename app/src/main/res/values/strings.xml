@@ -34,6 +34,20 @@
     <string name="dis_like_in_progress">Ожидание дизлайка</string>
     <string name="like_is">Лайк уже поставлен</string>
     <string name="dis_like_is">Дизлайк уже поставлен</string>
+    <string name="not_like_dislike">Нету лайков и дизалайков</string>
+    <string name="read_only">Вы можете только смотреть идеи</string>
+    <string name="logout_out_account">Выход из учетной записи</string>
+    <string name="change_password">Изменение пароля</string>
+    <string name="uploading_profile_photo">Загрузка фото профиля</string>
+    <string name="change_your_profile_photo">Измененеие фото профиля</string>
+    <string name="password_change_successful">Пароль успешно изменен</string>
+    <string name="incorrect_password">Неверный пароль!</string>
+    <string name="input_old_password">Введите старый пароль</string>
+    <string name="error_change_image">Ошибка изменения фото</string>
+    <string name="set_img">Отправка изображения</string>
+    <string name="link_to_internet_resource_for_idea">Сылка на интернет ресурс для идеи</string>
+    <string name="incorrect_link">Не коректная ссылка</string>
+    <string name="no_link">Нету ссылки</string>
 
 
 </resources>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "480503114933",
+    "firebase_url": "https://com-martynov-diplomadn.firebaseio.com",
+    "project_id": "com-martynov-diplomadn",
+    "storage_bucket": "com-martynov-diplomadn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480503114933:android:ec518ed005cc0d6038a2fc",
+        "android_client_info": {
+          "package_name": "com.martynov.diplom_adn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "480503114933-ouvuhm5gp5d1etsrccpga52josburaoc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNeVlyq0WjiRbh2MnAuebM4E5-r1Y_3-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "480503114933-ouvuhm5gp5d1etsrccpga52josburaoc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

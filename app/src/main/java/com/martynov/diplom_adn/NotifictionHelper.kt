@@ -3,15 +3,21 @@ package com.martynov.diplom_adn
 import android.annotation.TargetApi
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.martynov.diplom_adn.data.AttachmentType
+import java.io.IOException
+import java.net.URL
 import java.util.*
 
 
-object NotifictionHelper {
+object NotifictionHelper  {
     private val UPLOAD_CHANEL_ID = "upload_chanel_id"
     private var channelCreated = false
     private var lastNotificationId: Int? = null
@@ -51,6 +57,32 @@ object NotifictionHelper {
         }
         showNotification(context, builder)
     }
+    fun postIsLike(context: Context, content: String?, id:Long){
+        createNotificationChannelIfNotCreated(context)
+        val resultIntent = Intent(context,  FeedActivity::class.java)
+        resultIntent.putExtra("id", id.toString());
+        val resultPendingIntent = PendingIntent.getActivity(
+            context, 0, resultIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            createBuilder(
+                context,
+                "",
+                "$content",
+                NotificationManager.IMPORTANCE_MIN,
+            ).setContentIntent(resultPendingIntent)
+        } else {
+            createBuilder(
+                context,
+                "",
+                "$content"
+            )
+        }
+        showNotification(context, builder)
+    }
+
+
 
     private fun showNotification(
         context: Context,

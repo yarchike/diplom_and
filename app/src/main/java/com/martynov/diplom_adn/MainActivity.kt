@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         title = getString(R.string.authorization)
+        requestToken()
         if(isAuthenticated()){
             navigateToFeed()
             return
@@ -94,6 +96,13 @@ class MainActivity : AppCompatActivity() {
 
             root.longSnackbar(getString(R.string.google_play_unavailable))
             return
+        }
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
+            lifecycleScope.launch {
+                println(it.token)
+                val me = App.repository.getMe().body()
+                val user = App.repository.registerPushToken(it.token, me?.id)
+            }
         }
 
     }

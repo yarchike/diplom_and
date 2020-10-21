@@ -10,6 +10,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -19,6 +20,7 @@ import com.martynov.diplom_adn.data.AttachmentModel
 import com.martynov.diplom_adn.data.AttachmentType
 import com.martynov.diplom_adn.data.CreateIdeaRequest
 import kotlinx.android.synthetic.main.activity_create_idea.*
+import kotlinx.android.synthetic.main.tollbar.*
 import kotlinx.coroutines.launch
 import splitties.toast.toast
 import java.util.*
@@ -30,42 +32,86 @@ class CreateIdeaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_idea)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
 
-        attachPhotoImg.setOnClickListener {
+        attachPhotoImgSetting.setOnClickListener {
             dispatchTakePictureIntent()
         }
         createIdeaBtn.setOnClickListener {
             lifecycleScope.launch {
-                dialog = ProgressDialog(this@CreateIdeaActivity).apply {
-                    setMessage(getString(R.string.please_wait))
-                    setTitle(getString(R.string.creat_new_idea))
-                    setCancelable(false)
-                    setProgressBarIndeterminate(true)
-                    show()
-                }
-                try {
-                    val date = Calendar.getInstance().timeInMillis
-                    val result = App.repository.createIdea(
-                        CreateIdeaRequest(
-                            ideaText = contentEdt.text.toString(), date = date,
-                            attachment = attachmentModel,
-                            like = 0,
-                            disLike = 0
-                        )
-                    )
-                    if (result.isSuccessful) {
-                        handleSuccessfullResult()
+                val urlText = textUrl.text.toString()
+                if (urlText != "") {
+                    if (isValidUrl(urlText)) {
+                        dialog = ProgressDialog(this@CreateIdeaActivity).apply {
+                            setMessage(getString(R.string.please_wait))
+                            setTitle(getString(R.string.creat_new_idea))
+                            setCancelable(false)
+                            setProgressBarIndeterminate(true)
+                            show()
+                        }
+                        try {
+                            val date = Calendar.getInstance().timeInMillis
+                            val result = App.repository.createIdea(
+                                CreateIdeaRequest(
+                                    ideaText = contentEdt.text.toString(), date = date,
+                                    attachment = attachmentModel,
+                                    like = 0,
+                                    disLike = 0,
+                                    url = urlText
+                                )
+                            )
+                            if (result.isSuccessful) {
+                                handleSuccessfullResult()
+                            } else {
+                                handleFailedResult()
+                            }
+                        } catch (e: Exception) {
+                            handleFailedResult()
+                        } finally {
+                            dialog?.dismiss()
+                        }
                     } else {
-                        handleFailedResult()
+                        tilUrl.error = getString(R.string.incorrect_link)
                     }
-                } catch (e: Exception) {
-                    handleFailedResult()
-                } finally {
-                    dialog?.dismiss()
+                } else {
+                    dialog = ProgressDialog(this@CreateIdeaActivity).apply {
+                        setMessage(getString(R.string.please_wait))
+                        setTitle(getString(R.string.creat_new_idea))
+                        setCancelable(false)
+                        setProgressBarIndeterminate(true)
+                        show()
+                    }
+                    try {
+                        val date = Calendar.getInstance().timeInMillis
+                        val result = App.repository.createIdea(
+                            CreateIdeaRequest(
+                                ideaText = contentEdt.text.toString(), date = date,
+                                attachment = attachmentModel,
+                                like = 0,
+                                disLike = 0,
+                                url = urlText
+                            )
+                        )
+                        if (result.isSuccessful) {
+                            handleSuccessfullResult()
+                        } else {
+                            handleFailedResult()
+                        }
+                    } catch (e: Exception) {
+                        handleFailedResult()
+                    } finally {
+                        dialog?.dismiss()
+                    }
                 }
+
+
             }
         }
+
     }
+
 
     private fun dispatchTakePictureIntent() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
@@ -153,11 +199,11 @@ class CreateIdeaActivity : AppCompatActivity() {
 
     private fun imageUploaded() {
         transparetAllIcons()
-        attachPhotoDoneImg.visibility = View.VISIBLE
+        attachPhotoDoneImgSetting.visibility = View.VISIBLE
     }
 
     private fun transparetAllIcons() {
-        attachPhotoImg.setImageResource(R.drawable.ic_image_inactive)
+        attachPhotoImgSetting.setImageResource(R.drawable.ic_image_inactive)
     }
 
     companion object {
@@ -172,5 +218,15 @@ class CreateIdeaActivity : AppCompatActivity() {
 
     private fun handleFailedResult() {
         toast(R.string.error_occured)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.getItemId()) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
