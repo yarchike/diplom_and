@@ -33,7 +33,7 @@ class FeedActivity : AppCompatActivity(), IdeaAdapter.OnLikeBtnClickListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feed)
         val recyclerView = findViewById<RecyclerView>(R.id.container)
-        title = getString(R.string.ideas)
+        setSupportActionBar(toolbar)
         container.addOnChildAttachStateChangeListener(object :
             RecyclerView.OnChildAttachStateChangeListener {
             override fun onChildViewAttachedToWindow(view: View) {

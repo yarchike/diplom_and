@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.martynov.diplom_adn.data.AttachmentModel
 import com.martynov.diplom_adn.data.AttachmentType
 import kotlinx.android.synthetic.main.activity_registration.*
+import kotlinx.android.synthetic.main.tollbar.*
 import kotlinx.coroutines.launch
 import splitties.toast.toast
 
@@ -30,8 +31,8 @@ class RegistrationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
-        title = getString(R.string.registration)
-
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setSubtitle(R.string.registration)
         attachPhotoImgSetting.setOnClickListener {
             dispatchTakePictureIntent()
 

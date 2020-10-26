@@ -31,8 +31,8 @@ class UserSettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_settings)
-        title = getString(R.string.settings)
         setSupportActionBar(toolbar)
+        supportActionBar!!.setSubtitle(R.string.settings)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         buttonChangePhoto.setOnClickListener {
