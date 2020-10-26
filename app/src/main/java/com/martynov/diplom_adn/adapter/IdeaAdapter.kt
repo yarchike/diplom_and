@@ -11,6 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.martynov.diplom_adn.R
 import com.martynov.diplom_adn.convertDateToString
 import com.martynov.diplom_adn.data.AttachmentType
+import com.martynov.diplom_adn.data.UserType
 import com.martynov.diplom_adn.model.IdeaModel
 import kotlinx.android.synthetic.main.iteam_idea.view.*
 import splitties.toast.toast
@@ -128,6 +129,16 @@ class IdeaViewHolder(val adapter: IdeaAdapter, view: View) : RecyclerView.ViewHo
     fun bind(idea: IdeaModel) {
         with(itemView) {
             nameAutor.text = idea.autor.username
+            when(idea.autor.userType){
+                UserType.HATER -> {
+                    textBadge.text = context.getString(R.string.hater)
+                    textBadge.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
+                }
+                UserType.PROMOTER ->{
+                    textBadge.text = context.getString(R.string.promoter)
+                    textBadge.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
+                }
+            }
             when (idea.autor.attachment?.mediaType) {
                 AttachmentType.IMAGE -> loadImageAutor(imageAutor, idea.autor.attachment.urlUser)
             }

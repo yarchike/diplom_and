@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import com.martynov.diplom_adn.adapter.IdeaAdapter
 import com.martynov.diplom_adn.data.AutorIdeaRequest
 import com.martynov.diplom_adn.model.IdeaModel
@@ -42,7 +41,7 @@ class FeedActivity : AppCompatActivity(), IdeaAdapter.OnLikeBtnClickListener,
 
             override fun onChildViewDetachedFromWindow(view: View) {
                 if (recyclerView.getChildAdapterPosition(view) == 0) {
-                    lifecycleScope.launch {
+                    lifecycleScope.launch{
                         try {
                             val result = App.repository.getIdeaCount(iteams[iteams.size - 1].id)
                             if (result.isSuccessful) {
@@ -105,7 +104,6 @@ class FeedActivity : AppCompatActivity(), IdeaAdapter.OnLikeBtnClickListener,
                 if (result.isSuccessful) {
                     with(container) {
                         if (id != null) {
-                            splitties.toast.toast(id.toString())
                             iteams.clear()
                             val iteam = App.repository.getIdeaId(id).body()
                             if (iteam != null) {
@@ -139,11 +137,10 @@ class FeedActivity : AppCompatActivity(), IdeaAdapter.OnLikeBtnClickListener,
     }
 
     override fun onLikeBtnClicked(item: IdeaModel, position: Int) {
-        toast("Лайк")
         lifecycleScope.launch {
             with(container) {
-                if (item.isLike) {
-                    splitties.toast.toast(context.getString(R.string.like_is))
+                if (item.isLike || item.isDisLike) {
+                    splitties.toast.toast(context.getString(R.string.already_voted_for_this_idea))
                 } else {
                     item.likeActionPerforming = true
                     adapter?.notifyItemChanged(position)
@@ -159,16 +156,14 @@ class FeedActivity : AppCompatActivity(), IdeaAdapter.OnLikeBtnClickListener,
     }
 
     override fun onDisLikeBtnClicked(item: IdeaModel, position: Int) {
-        toast("Дизлайк")
         lifecycleScope.launch {
             with(container) {
-                if (item.isDisLike) {
-                    splitties.toast.toast(context.getString(R.string.dis_like_is))
+                if (item.isDisLike || item.isLike) {
+                    splitties.toast.toast(context.getString(R.string.already_voted_for_this_idea))
                 } else {
                     item.DisLikeActionPerforming = true
                     adapter?.notifyItemChanged(position)
                     val response = App.repository.disLike(item.id)
-                    toast(response.body()!!.disLike.toString())
                     item.DisLikeActionPerforming = false
                     if (response.isSuccessful) {
                         item.updateIdea(response.body()!!)
@@ -181,10 +176,10 @@ class FeedActivity : AppCompatActivity(), IdeaAdapter.OnLikeBtnClickListener,
 
     override fun onViewingBtnClicked(iteam: IdeaModel) {
         if (iteam.ideaIsLike.size > 0) {
-            val stringInJSON = Gson().toJson(iteam.ideaIsLike)
+            //val stringInJSON = Gson().toJson(iteam.ideaIsLike)
             val intent = Intent(this@FeedActivity, LikeAndDislikeActivity::class.java)
 
-            intent.putExtra("likeAndDislike", stringInJSON)
+            intent.putExtra("likeAndDislike", iteam.id.toString())
             startActivity(intent)
         } else {
             toast(getString(R.string.not_like_dislike))

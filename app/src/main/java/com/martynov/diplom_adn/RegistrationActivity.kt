@@ -216,7 +216,7 @@ class RegistrationActivity : AppCompatActivity() {
             .putString(AUTHENTICATED_SHARED_KEY, token)
             .apply()
     private fun navigateToFeed() {
-        val intent = Intent(this@RegistrationActivity, FeedActivity::class.java)
+        val intent = Intent(this@RegistrationActivity, MainActivity::class.java)
         startActivity(intent)
         finish()
     }

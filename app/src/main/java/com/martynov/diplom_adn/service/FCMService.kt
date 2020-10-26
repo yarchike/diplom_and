@@ -18,7 +18,7 @@ class FCMService : FirebaseMessagingService() {
         try {
             if (title != null) {
                 if (recipientId != null) {
-                    NotifictionHelper.postIsLike(this, title, recipientId.toLong())
+                    NotifictionHelper.postIsLike(this, title, recipientId.toLong(), body)
 
 
                 }

@@ -1,21 +1,19 @@
 package com.martynov.diplom_adn
 
 import android.app.ProgressDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.martynov.diplom_adn.adapter.LikeAndDisLikeAdapter
 import com.martynov.diplom_adn.data.LikeAndDislike
-import com.martynov.diplom_adn.model.IdeaModel
+import kotlinx.android.synthetic.main.activity_feed.*
 import kotlinx.android.synthetic.main.activity_like_and_dislike.*
-import kotlinx.android.synthetic.main.iteam_like_dislike.view.*
+import kotlinx.android.synthetic.main.activity_like_and_dislike.swipeContainer
 import kotlinx.android.synthetic.main.tollbar.*
+import kotlinx.coroutines.launch
 import splitties.toast.toast
-import java.io.File
 
 class LikeAndDislikeActivity : AppCompatActivity() {
     private var dialog: ProgressDialog? = null
@@ -27,21 +25,20 @@ class LikeAndDislikeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
+        swipeContainer.setOnRefreshListener{
+            load()
+            swipeContainer.isRefreshing = false
+        }
 
 
     }
 
     override fun onStart() {
         super.onStart()
-        val bundle = intent.extras
-        val stringOutJson = bundle?.getString("likeAndDislike")
-        val type = object : TypeToken<List<LikeAndDislike>>() {}.type
-        val likeAndDislike: List<LikeAndDislike> = Gson().fromJson<List<LikeAndDislike>>(stringOutJson, type)
-        with(recyclerView){
-            iteams = likeAndDislike as ArrayList<LikeAndDislike>
-            layoutManager =  LinearLayoutManager(this@LikeAndDislikeActivity)
-            adapter = LikeAndDisLikeAdapter(iteams as MutableList<LikeAndDislike>)
-        }
+        load()
+        //val type = object : TypeToken<List<LikeAndDislike>>() {}.type
+        //val likeAndDislike: List<LikeAndDislike> = Gson().fromJson<List<LikeAndDislike>>(stringOutJson, type)
+
 
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -52,5 +49,27 @@ class LikeAndDislikeActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+    private fun load(){
+        val bundle = intent.extras
+        val id = bundle?.getString("likeAndDislike")?.toLong()
+        lifecycleScope.launch {
+            try {
+                with(recyclerView) {
+                    if(id != null){
+                        val result = App.repository.getIdeaId(id)
+                        iteams = result.body()?.ideaIsLike as ArrayList < LikeAndDislike >
+                        layoutManager = LinearLayoutManager(this@LikeAndDislikeActivity)
+                        adapter = LikeAndDisLikeAdapter(iteams as MutableList<LikeAndDislike>)
+                    }else{
+                        toast(R.string.falien_connect)
+                    }
+
+                }
+            }catch (e: Exception){
+                toast(R.string.falien_connect)
+            }
+        }
+
     }
 }

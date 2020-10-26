@@ -16,6 +16,6 @@ fun isValidUrl(url:String) =
 fun convertDateToString(date: Long): String{
     val cal: Calendar = Calendar.getInstance()
     cal.timeInMillis = date
-    val format = SimpleDateFormat("dd-MM-yyyy hh:mm");
+    val format = SimpleDateFormat("dd.MMMyyyy HH:mm")
     return format.format(cal.time)
 }

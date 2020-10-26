@@ -48,6 +48,9 @@
     <string name="link_to_internet_resource_for_idea">Сылка на интернет ресурс для идеи</string>
     <string name="incorrect_link">Не коректная ссылка</string>
     <string name="no_link">Нету ссылки</string>
+    <string name="already_voted_for_this_idea">Уже проголосовали за эту идею</string>
+    <string name="hater">hater</string>
+    <string name="promoter">promoter</string>
 
 
 </resources>

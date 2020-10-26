@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -12,6 +13,8 @@ import com.martynov.diplom_adn.convertDateToString
 import com.martynov.diplom_adn.data.AttachmentType
 import com.martynov.diplom_adn.data.LikeAndDislike
 import com.martynov.diplom_adn.data.TypeLikeDisLike
+import com.martynov.diplom_adn.data.UserType
+import kotlinx.android.synthetic.main.iteam_idea.view.*
 import kotlinx.android.synthetic.main.iteam_like_dislike.view.*
 import kotlinx.android.synthetic.main.iteam_like_dislike.view.imageAutor
 import kotlinx.android.synthetic.main.iteam_like_dislike.view.textDate
@@ -46,12 +49,22 @@ class LikeDislikeHolder(val adapter: LikeAndDisLikeAdapter, view: View):Recycler
             when (likeDislike.autor.attachment?.mediaType) {
                 AttachmentType.IMAGE -> loadImageAutor(imageAutor, likeDislike.autor.attachment.urlUser)
             }
-            when{
-                likeDislike.type == TypeLikeDisLike.LIKE -> {
+            when (likeDislike.type) {
+                TypeLikeDisLike.LIKE -> {
                     imageLikdeDislike.setImageResource(R.drawable.like_active)
                 }
-                likeDislike.type == TypeLikeDisLike.DISLIKE ->{
+                TypeLikeDisLike.DISLIKE -> {
                     imageLikdeDislike.setImageResource(R.drawable.dislike_active)
+                }
+            }
+            when(likeDislike.autor.userType){
+                UserType.HATER -> {
+                    textBadgeLD.text = context.getString(R.string.hater)
+                    textBadgeLD.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
+                }
+                UserType.PROMOTER ->{
+                    textBadgeLD.text = context.getString(R.string.promoter)
+                    textBadgeLD.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
                 }
             }
         }

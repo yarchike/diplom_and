@@ -57,7 +57,7 @@ object NotifictionHelper  {
         }
         showNotification(context, builder)
     }
-    fun postIsLike(context: Context, content: String?, id:Long){
+    fun postIsLike(context: Context, title: String?, id:Long, body:String?){
         createNotificationChannelIfNotCreated(context)
         val resultIntent = Intent(context,  FeedActivity::class.java)
         resultIntent.putExtra("id", id.toString());
@@ -68,15 +68,15 @@ object NotifictionHelper  {
         val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             createBuilder(
                 context,
-                "",
-                "$content",
+                "$title",
+                "$body",
                 NotificationManager.IMPORTANCE_MIN,
             ).setContentIntent(resultPendingIntent)
         } else {
             createBuilder(
                 context,
-                "",
-                "$content"
+                "$title",
+                "$body"
             )
         }
         showNotification(context, builder)
