@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">diplom_adn</string>
+    <string name="app_name">Идеи</string>
     <string name="button">Button</string>
     <string name="login_hint">Введите логин</string>
     <string name="password_hint">Введите пароль</string>
@@ -51,6 +51,10 @@
     <string name="already_voted_for_this_idea">Уже проголосовали за эту идею</string>
     <string name="hater">hater</string>
     <string name="promoter">promoter</string>
+    <string name="Idea_creation">Создание идеи</string>
+    <string name="ideas">Идеи</string>
+    <string name="likes_and_dislikes">Лайки и Дизлайки</string>
+    <string name="settings">Настройки</string>
 
 
 </resources>
