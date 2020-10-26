@@ -3,16 +3,15 @@ package com.martynov.diplom_adn
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
     private var dialog: ProgressDialog? = null
@@ -21,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         title = getString(R.string.authorization)
         requestToken()
-        if(isAuthenticated()){
+        if (isAuthenticated()) {
             navigateToFeed()
             return
         }
@@ -118,6 +117,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
     private fun isAuthenticated(): Boolean =
         getSharedPreferences(API_SHARED_FILE, Context.MODE_PRIVATE).getString(
             AUTHENTICATED_SHARED_KEY, ""

@@ -21,7 +21,6 @@ import com.martynov.diplom_adn.data.AttachmentType
 import kotlinx.android.synthetic.main.activity_registration.*
 import kotlinx.coroutines.launch
 import splitties.toast.toast
-import java.lang.Exception
 
 
 class RegistrationActivity : AppCompatActivity() {
@@ -42,7 +41,7 @@ class RegistrationActivity : AppCompatActivity() {
                 val login = edt_registration_login.text?.toString().orEmpty()
                 val password = edt_registration_password.text?.toString().orEmpty()
                 val twoPassword = edt_registration_repeat_password.text?.toString().orEmpty()
-                when{
+                when {
                     !isValidUsername(login) -> {
                         til_registration_login.error = getString(R.string.username_is_incorrect)
                     }
@@ -50,7 +49,8 @@ class RegistrationActivity : AppCompatActivity() {
                         til_registration_password.error = getString(R.string.password_is_incorrect)
                     }
                     !(password == twoPassword) -> {
-                        til_registration_repeat_password.error = getString(R.string.password_mismatch)
+                        til_registration_repeat_password.error =
+                            getString(R.string.password_mismatch)
                     }
                     login == "" -> {
                         toast(getString(R.string.enter_login))
@@ -58,25 +58,25 @@ class RegistrationActivity : AppCompatActivity() {
                     password == "" -> {
                         toast(getString(R.string.enter_password))
                     }
-                    twoPassword == "" ->{
+                    twoPassword == "" -> {
                         toast(getString(R.string.enter_your_password_a_second_time))
                     }
                     else -> {
-                        dialog = ProgressDialog(this@RegistrationActivity).apply{
+                        dialog = ProgressDialog(this@RegistrationActivity).apply {
                             setMessage(getString(R.string.please_wait))
                             setTitle(getString(R.string.loading_data))
                             show()
                             setCancelable(false)
                         }
-                        try{
+                        try {
                             val token = App.repository.register(login, password, attachmentModel)
-                            if(token.isSuccessful){
+                            if (token.isSuccessful) {
                                 setUserAuth(requireNotNull(token.body()?.token))
                                 navigateToFeed()
                             }
                             dialog?.dismiss()
 
-                        }catch (e: Exception){
+                        } catch (e: Exception) {
                             toast(getString(R.string.falien_connect))
                             dialog?.dismiss()
 
@@ -189,16 +189,16 @@ class RegistrationActivity : AppCompatActivity() {
     ) {
         when (requestCode) {
             REQUEST_GALLERY -> {
-               if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                   val loadIntent = Intent(
-                       Intent.ACTION_PICK,
-                       MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                   )
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    val loadIntent = Intent(
+                        Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    )
 
-                   startActivityForResult(loadIntent, REQUEST_GALLERY)
-               }else{
-                   toast(getString(R.string.permission_not_given))
-               }
+                    startActivityForResult(loadIntent, REQUEST_GALLERY)
+                } else {
+                    toast(getString(R.string.permission_not_given))
+                }
             }
 
         }
@@ -210,11 +210,13 @@ class RegistrationActivity : AppCompatActivity() {
         const val REQUEST_GALLERY = 1
 
     }
+
     private fun setUserAuth(token: String) =
         getSharedPreferences(API_SHARED_FILE, Context.MODE_PRIVATE)
             .edit()
             .putString(AUTHENTICATED_SHARED_KEY, token)
             .apply()
+
     private fun navigateToFeed() {
         val intent = Intent(this@RegistrationActivity, MainActivity::class.java)
         startActivity(intent)

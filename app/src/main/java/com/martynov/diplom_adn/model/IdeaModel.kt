@@ -17,9 +17,9 @@ data class IdeaModel(
     var DisLikeActionPerforming: Boolean = false,
     var ideaIsLike: ArrayList<LikeAndDislike> = ArrayList(),
     var isLike: Boolean = false,
-    var isDisLike:Boolean = false,
-    val url:String =""
-)  {
+    var isDisLike: Boolean = false,
+    val url: String = ""
+) {
     fun updateIdea(updatedModel: IdeaModel) {
         if (id != updatedModel.id) throw IllegalAccessException("Ids are different")
         like = updatedModel.like

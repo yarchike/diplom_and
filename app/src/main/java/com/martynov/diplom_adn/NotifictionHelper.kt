@@ -6,25 +6,19 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.martynov.diplom_adn.data.AttachmentType
-import java.io.IOException
-import java.net.URL
 import java.util.*
 
 
-object NotifictionHelper  {
+object NotifictionHelper {
     private val UPLOAD_CHANEL_ID = "upload_chanel_id"
     private var channelCreated = false
     private var lastNotificationId: Int? = null
 
     private fun createNotificationChannel(context: Context) {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "Загрузка медиа"
             val descriptionText = "Notifies when media upload during post creation"
@@ -32,7 +26,6 @@ object NotifictionHelper  {
             val channel = NotificationChannel(UPLOAD_CHANEL_ID, name, importance).apply {
                 description = descriptionText
             }
-            // Register the channel with the system
             val notificationManager: NotificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
@@ -57,9 +50,10 @@ object NotifictionHelper  {
         }
         showNotification(context, builder)
     }
-    fun postIsLike(context: Context, title: String?, id:Long, body:String?){
+
+    fun postIsLike(context: Context, title: String?, id: Long, body: String?) {
         createNotificationChannelIfNotCreated(context)
-        val resultIntent = Intent(context,  FeedActivity::class.java)
+        val resultIntent = Intent(context, FeedActivity::class.java)
         resultIntent.putExtra("id", id.toString());
         val resultPendingIntent = PendingIntent.getActivity(
             context, 0, resultIntent,
@@ -81,7 +75,6 @@ object NotifictionHelper  {
         }
         showNotification(context, builder)
     }
-
 
 
     private fun showNotification(

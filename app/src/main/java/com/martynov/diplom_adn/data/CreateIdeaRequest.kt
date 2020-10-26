@@ -8,5 +8,5 @@ data class CreateIdeaRequest(
     val attachment: AttachmentModel? = null,
     val like: Long,
     val disLike: Long,
-    val url:String =""
+    val url: String = ""
 )

@@ -14,16 +14,14 @@ import com.martynov.diplom_adn.data.AttachmentType
 import com.martynov.diplom_adn.data.LikeAndDislike
 import com.martynov.diplom_adn.data.TypeLikeDisLike
 import com.martynov.diplom_adn.data.UserType
-import kotlinx.android.synthetic.main.iteam_idea.view.*
 import kotlinx.android.synthetic.main.iteam_like_dislike.view.*
-import kotlinx.android.synthetic.main.iteam_like_dislike.view.imageAutor
-import kotlinx.android.synthetic.main.iteam_like_dislike.view.textDate
 
 
-class LikeAndDisLikeAdapter(val listLikeAndDislike: MutableList<LikeAndDislike>):
+class LikeAndDisLikeAdapter(val listLikeAndDislike: MutableList<LikeAndDislike>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-       val likeDislikeIteam = LayoutInflater.from(parent.context).inflate(R.layout.iteam_like_dislike, parent, false)
+        val likeDislikeIteam =
+            LayoutInflater.from(parent.context).inflate(R.layout.iteam_like_dislike, parent, false)
         return LikeDislikeHolder(this, likeDislikeIteam)
     }
 
@@ -40,14 +38,19 @@ class LikeAndDisLikeAdapter(val listLikeAndDislike: MutableList<LikeAndDislike>)
 
 
 }
-class LikeDislikeHolder(val adapter: LikeAndDisLikeAdapter, view: View):RecyclerView.ViewHolder(view){
 
-    fun bind(likeDislike: LikeAndDislike){
-        with(itemView){
+class LikeDislikeHolder(val adapter: LikeAndDisLikeAdapter, view: View) :
+    RecyclerView.ViewHolder(view) {
+
+    fun bind(likeDislike: LikeAndDislike) {
+        with(itemView) {
             textAutor.text = likeDislike.autor.username
             textDate.text = convertDateToString(likeDislike.date)
             when (likeDislike.autor.attachment?.mediaType) {
-                AttachmentType.IMAGE -> loadImageAutor(imageAutor, likeDislike.autor.attachment.urlUser)
+                AttachmentType.IMAGE -> loadImageAutor(
+                    imageAutor,
+                    likeDislike.autor.attachment.urlUser
+                )
             }
             when (likeDislike.type) {
                 TypeLikeDisLike.LIKE -> {
@@ -57,18 +60,19 @@ class LikeDislikeHolder(val adapter: LikeAndDisLikeAdapter, view: View):Recycler
                     imageLikdeDislike.setImageResource(R.drawable.dislike_active)
                 }
             }
-            when(likeDislike.autor.userType){
+            when (likeDislike.autor.userType) {
                 UserType.HATER -> {
                     textBadgeLD.text = context.getString(R.string.hater)
                     textBadgeLD.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
                 }
-                UserType.PROMOTER ->{
+                UserType.PROMOTER -> {
                     textBadgeLD.text = context.getString(R.string.promoter)
                     textBadgeLD.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
                 }
             }
         }
     }
+
     private fun loadImageAutor(photoImg: ImageView, imageUrl: String) {
         val requestOptions = RequestOptions()
             .placeholder(R.drawable.ic_launcher_background)

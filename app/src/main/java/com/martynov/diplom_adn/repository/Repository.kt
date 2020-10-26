@@ -21,8 +21,8 @@ interface Repository {
     suspend fun disLike(id: Long): Response<IdeaModel>
     suspend fun getMe(): Response<AutorIdeaRequest>
     suspend fun changePassword(passwordChangeRequestDto: PasswordChangeRequestDto): Response<AutorIdeaRequest>
-    suspend fun changeImg(attachmentModel: AttachmentModel):Response<Boolean>
+    suspend fun changeImg(attachmentModel: AttachmentModel): Response<Boolean>
     suspend fun getIdeaCount(idEndIdea: Long): Response<List<IdeaModel>>
-    suspend fun registerPushToken(token: String, id:Long?): Response<AutorIdeaRequest>
+    suspend fun registerPushToken(token: String, id: Long?): Response<AutorIdeaRequest>
     suspend fun getIdeaId(id: Long): Response<IdeaModel>
 }

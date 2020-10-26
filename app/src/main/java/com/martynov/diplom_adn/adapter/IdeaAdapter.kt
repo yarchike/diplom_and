@@ -20,11 +20,9 @@ class IdeaAdapter(val listIdea: MutableList<IdeaModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var likeBtnClickListener: OnLikeBtnClickListener? = null
     var disLikeBtnClickListener: OnDisLikeBtnClickListener? = null
-    var viewingBtnClickListener:OnViewingBtnClickListener? = null
-    var autorBtnClickListener:OnAutorBtnClickListener? = null
-    var linkBtnClickListener:OnLinkBtnClickListener? = null
-
-
+    var viewingBtnClickListener: OnViewingBtnClickListener? = null
+    var autorBtnClickListener: OnAutorBtnClickListener? = null
+    var linkBtnClickListener: OnLinkBtnClickListener? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -49,23 +47,27 @@ class IdeaAdapter(val listIdea: MutableList<IdeaModel>) :
     interface OnLikeBtnClickListener {
         fun onLikeBtnClicked(item: IdeaModel, position: Int)
     }
+
     interface OnDisLikeBtnClickListener {
         fun onDisLikeBtnClicked(item: IdeaModel, position: Int)
     }
-    interface OnViewingBtnClickListener{
+
+    interface OnViewingBtnClickListener {
         fun onViewingBtnClicked(iteam: IdeaModel)
     }
-    interface OnAutorBtnClickListener{
+
+    interface OnAutorBtnClickListener {
         fun onAutorBtnClicked(iteam: IdeaModel)
     }
+
     fun newRecentIdea(list: List<IdeaModel>) {
         this.listIdea.clear()
         this.listIdea.addAll(list)
     }
-    interface OnLinkBtnClickListener{
+
+    interface OnLinkBtnClickListener {
         fun onLinkBtnClickListener(iteam: IdeaModel)
     }
-
 
 
 }
@@ -129,12 +131,12 @@ class IdeaViewHolder(val adapter: IdeaAdapter, view: View) : RecyclerView.ViewHo
     fun bind(idea: IdeaModel) {
         with(itemView) {
             nameAutor.text = idea.autor.username
-            when(idea.autor.userType){
+            when (idea.autor.userType) {
                 UserType.HATER -> {
                     textBadge.text = context.getString(R.string.hater)
                     textBadge.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
                 }
-                UserType.PROMOTER ->{
+                UserType.PROMOTER -> {
                     textBadge.text = context.getString(R.string.promoter)
                     textBadge.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
                 }
@@ -146,7 +148,7 @@ class IdeaViewHolder(val adapter: IdeaAdapter, view: View) : RecyclerView.ViewHo
             textIdea.text = idea.ideaText
             textLike.text = idea.like.toString()
             textDisLike.text = idea.disLike.toString()
-            when{
+            when {
                 idea.url != "" -> imageLink.setImageResource(R.drawable.ic_active_link)
             }
 
@@ -157,18 +159,18 @@ class IdeaViewHolder(val adapter: IdeaAdapter, view: View) : RecyclerView.ViewHo
                     textLike.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
                 }
 
-               else -> {
+                else -> {
                     imageLike.setImageResource(R.drawable.like_no_active)
                     textLike.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
                 }
             }
-            when{
-                idea.DisLikeActionPerforming ->imageDisLike.setImageResource(R.drawable.dislike_wating)
+            when {
+                idea.DisLikeActionPerforming -> imageDisLike.setImageResource(R.drawable.dislike_wating)
                 idea.isDisLike -> {
                     imageDisLike.setImageResource(R.drawable.dislike_active)
                     textDisLike.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
                 }
-                else ->{
+                else -> {
                     imageDisLike.setImageResource(R.drawable.dislike_no_active)
                     textDisLike.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
                 }

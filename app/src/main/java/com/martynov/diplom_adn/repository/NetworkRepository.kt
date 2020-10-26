@@ -77,9 +77,12 @@ class NetworkRepository(private val api: API) : Repository {
 
     override suspend fun changeImg(attachmentModel: AttachmentModel): Response<Boolean> =
         api.changeImg(attachmentModel)
+
     override suspend fun getIdeaCount(idEndIdea: Long): Response<List<IdeaModel>> =
         api.getIdeaCount(idEndIdea)
 
-    override suspend fun registerPushToken(token: String, id: Long?): Response<AutorIdeaRequest> = api.registerPushToken(id, PushRequestParams(token))
+    override suspend fun registerPushToken(token: String, id: Long?): Response<AutorIdeaRequest> =
+        api.registerPushToken(id, PushRequestParams(token))
+
     override suspend fun getIdeaId(id: Long): Response<IdeaModel> = api.getIdeaId(id)
 }

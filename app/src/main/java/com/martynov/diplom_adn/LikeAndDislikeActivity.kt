@@ -25,7 +25,7 @@ class LikeAndDislikeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-        swipeContainer.setOnRefreshListener{
+        swipeContainer.setOnRefreshListener {
             load()
             swipeContainer.isRefreshing = false
         }
@@ -36,11 +36,10 @@ class LikeAndDislikeActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         load()
-        //val type = object : TypeToken<List<LikeAndDislike>>() {}.type
-        //val likeAndDislike: List<LikeAndDislike> = Gson().fromJson<List<LikeAndDislike>>(stringOutJson, type)
 
 
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.getItemId()) {
             android.R.id.home -> {
@@ -50,23 +49,24 @@ class LikeAndDislikeActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-    private fun load(){
+
+    private fun load() {
         val bundle = intent.extras
         val id = bundle?.getString("likeAndDislike")?.toLong()
         lifecycleScope.launch {
             try {
                 with(recyclerView) {
-                    if(id != null){
+                    if (id != null) {
                         val result = App.repository.getIdeaId(id)
-                        iteams = result.body()?.ideaIsLike as ArrayList < LikeAndDislike >
+                        iteams = result.body()?.ideaIsLike as ArrayList<LikeAndDislike>
                         layoutManager = LinearLayoutManager(this@LikeAndDislikeActivity)
                         adapter = LikeAndDisLikeAdapter(iteams as MutableList<LikeAndDislike>)
-                    }else{
+                    } else {
                         toast(R.string.falien_connect)
                     }
 
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 toast(R.string.falien_connect)
             }
         }
