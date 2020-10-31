@@ -222,18 +222,28 @@ class IdeaAdapter(val listIdea: MutableList<IdeaModel>) :
 
         fun bindLike(idea: IdeaModel) {
             with(itemView) {
-                imageLike.setImageResource(R.drawable.like_active)
-                textLike.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
-                textLike.text = idea.like.toString()
+                when{
+                    idea.likeActionPerforming -> imageLike.setImageResource(R.drawable.like_wating)
+                    idea.isLike -> {
+                        imageLike.setImageResource(R.drawable.like_active)
+                        textLike.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
+                        textLike.text = idea.like.toString()
+                    }
+                }
 
             }
         }
 
         fun binddisLike(idea: IdeaModel) {
             with(itemView) {
-                imageDisLike.setImageResource(R.drawable.dislike_active)
-                textDisLike.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
-                textDisLike.text = idea.disLike.toString()
+                when{
+                    idea.DisLikeActionPerforming -> imageDisLike.setImageResource(R.drawable.dislike_wating)
+                    idea.isDisLike -> {
+                        imageDisLike.setImageResource(R.drawable.dislike_active)
+                        textDisLike.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
+                        textDisLike.text = idea.disLike.toString()
+                    }
+                }
             }
         }
 

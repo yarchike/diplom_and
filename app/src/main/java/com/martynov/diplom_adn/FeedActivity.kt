@@ -145,7 +145,7 @@ class FeedActivity : AppCompatActivity(), IdeaAdapter.OnLikeBtnClickListener,
                     splitties.toast.toast(context.getString(R.string.already_voted_for_this_idea))
                 } else {
                     item.likeActionPerforming = true
-                    adapter?.notifyItemChanged(position)
+                    adapter?.notifyItemChanged(position, Payload.LIKE_CHANGE)
                     val response = App.repository.like(item.id)
                     item.likeActionPerforming = false
                     if (response.isSuccessful) {
@@ -165,7 +165,7 @@ class FeedActivity : AppCompatActivity(), IdeaAdapter.OnLikeBtnClickListener,
                     splitties.toast.toast(context.getString(R.string.already_voted_for_this_idea))
                 } else {
                     item.DisLikeActionPerforming = true
-                    adapter?.notifyItemChanged(position)
+                    adapter?.notifyItemChanged(position, Payload.DISLIKE_CHANGE)
                     val response = App.repository.disLike(item.id)
                     item.DisLikeActionPerforming = false
                     if (response.isSuccessful) {
