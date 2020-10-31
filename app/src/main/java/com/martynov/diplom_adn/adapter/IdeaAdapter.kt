@@ -75,21 +75,22 @@ class IdeaAdapter(val listIdea: MutableList<IdeaModel>) :
         position: Int,
         payloads: MutableList<Any>
     ) {
-        if (!payloads.isEmpty()) {
-            when (payloads[0]) {
-                Payload.LIKE_CHANGE -> {
-                    when (holder) {
-                        is IdeaViewHolder -> holder.bindLike(listIdea[position])
-                    }
-                }
-                Payload.DISLIKE_CHANGE ->
-                    when (holder) {
-                    is IdeaViewHolder -> holder.binddisLike(listIdea[position])
-                }
-            }
+        when (holder) {
+            is IdeaViewHolder ->
+                if (!payloads.isEmpty()) {
+                    when (payloads[0]) {
+                        Payload.LIKE_CHANGE -> {
+                            holder.bindLike(listIdea[position])
+                        }
+                        Payload.DISLIKE_CHANGE -> {
+                            holder.binddisLike(listIdea[position])
+                        }
 
-        }else{
-            super.onBindViewHolder(holder, position, payloads)
+                    }
+
+                } else {
+                    super.onBindViewHolder(holder, position, payloads)
+                }
         }
 
 
@@ -220,18 +221,19 @@ class IdeaAdapter(val listIdea: MutableList<IdeaModel>) :
         }
 
         fun bindLike(idea: IdeaModel) {
-            with(itemView){
-                    imageLike.setImageResource(R.drawable.like_active)
-                    textLike.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
-                    textLike.text = idea.like.toString()
+            with(itemView) {
+                imageLike.setImageResource(R.drawable.like_active)
+                textLike.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
+                textLike.text = idea.like.toString()
 
             }
         }
+
         fun binddisLike(idea: IdeaModel) {
-            with(itemView){
-                    imageDisLike.setImageResource(R.drawable.dislike_active)
-                    textDisLike.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
-                    textDisLike.text = idea.disLike.toString()
+            with(itemView) {
+                imageDisLike.setImageResource(R.drawable.dislike_active)
+                textDisLike.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
+                textDisLike.text = idea.disLike.toString()
             }
         }
 
