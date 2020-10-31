@@ -1,5 +1,6 @@
 package com.martynov.diplom_adn.adapter
 
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,140 +70,188 @@ class IdeaAdapter(val listIdea: MutableList<IdeaModel>) :
         fun onLinkBtnClickListener(iteam: IdeaModel)
     }
 
-
-}
-
-class IdeaViewHolder(val adapter: IdeaAdapter, view: View) : RecyclerView.ViewHolder(view) {
-    init {
-        with(itemView) {
-
-            imageLike.setOnClickListener {
-                val currentPosition = adapterPosition
-                if (currentPosition != RecyclerView.NO_POSITION) {
-                    val item = adapter.listIdea[currentPosition]
-                    if (item.likeActionPerforming) {
-                        context.toast(context.getString(R.string.like_in_progress))
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (!payloads.isEmpty()) {
+            when (payloads[0]) {
+                Payload.LIKE_CHANGE -> {
+                    when (holder) {
+                        is IdeaViewHolder -> holder.bindLike(listIdea[position])
                     }
-                    adapter.likeBtnClickListener?.onLikeBtnClicked(
-                        item,
-                        currentPosition
-                    )
+                }
+                Payload.DISLIKE_CHANGE ->
+                    when (holder) {
+                    is IdeaViewHolder -> holder.binddisLike(listIdea[position])
                 }
             }
-            imageDisLike.setOnClickListener {
-                val currentPosition = adapterPosition
-                if (currentPosition != RecyclerView.NO_POSITION) {
-                    val item = adapter.listIdea[currentPosition]
-                    if (item.likeActionPerforming) {
-                        context.toast(context.getString(R.string.like_in_progress))
-                    }
-                    adapter.disLikeBtnClickListener?.onDisLikeBtnClicked(
-                        item,
-                        currentPosition
-                    )
-                }
-            }
-            imageViewing.setOnClickListener {
-                val currentPosition = adapterPosition
-                if (currentPosition != RecyclerView.NO_POSITION) {
-                    val item = adapter.listIdea[currentPosition]
-                    adapter.viewingBtnClickListener?.onViewingBtnClicked(item)
-                }
 
-            }
-            imageAutor.setOnClickListener {
-                val currentPosition = adapterPosition
-                if (currentPosition != RecyclerView.NO_POSITION) {
-                    val item = adapter.listIdea[currentPosition]
-                    adapter.autorBtnClickListener?.onAutorBtnClicked(item)
-                }
-            }
-            imageLink.setOnClickListener {
-                val currentPosition = adapterPosition
-                if (currentPosition != RecyclerView.NO_POSITION) {
-                    val item = adapter.listIdea[currentPosition]
-                    adapter.linkBtnClickListener?.onLinkBtnClickListener(item)
-                }
-            }
+        }else{
+            super.onBindViewHolder(holder, position, payloads)
         }
+
 
     }
 
-    fun bind(idea: IdeaModel) {
-        with(itemView) {
-            nameAutor.text = idea.autor.username
-            when (idea.autor.userType) {
-                UserType.HATER -> {
-                    textBadge.text = context.getString(R.string.hater)
-                    textBadge.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
+    class IdeaViewHolder(val adapter: IdeaAdapter, view: View) : RecyclerView.ViewHolder(view) {
+        init {
+            with(itemView) {
+
+                imageLike.setOnClickListener {
+                    val currentPosition = adapterPosition
+                    if (currentPosition != RecyclerView.NO_POSITION) {
+                        val item = adapter.listIdea[currentPosition]
+                        if (item.likeActionPerforming) {
+                            context.toast(context.getString(R.string.like_in_progress))
+                        }
+                        adapter.likeBtnClickListener?.onLikeBtnClicked(
+                            item,
+                            currentPosition
+                        )
+                    }
                 }
-                UserType.PROMOTER -> {
-                    textBadge.text = context.getString(R.string.promoter)
-                    textBadge.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
+                imageDisLike.setOnClickListener {
+                    val currentPosition = adapterPosition
+                    if (currentPosition != RecyclerView.NO_POSITION) {
+                        val item = adapter.listIdea[currentPosition]
+                        if (item.likeActionPerforming) {
+                            context.toast(context.getString(R.string.like_in_progress))
+                        }
+                        adapter.disLikeBtnClickListener?.onDisLikeBtnClicked(
+                            item,
+                            currentPosition
+                        )
+                    }
                 }
-            }
-            when (idea.autor.attachment?.mediaType) {
-                AttachmentType.IMAGE -> loadImageAutor(imageAutor, idea.autor.attachment.urlUser)
-            }
-            textDate.text = convertDateToString(idea.date)
-            textIdea.text = idea.ideaText
-            textLike.text = idea.like.toString()
-            textDisLike.text = idea.disLike.toString()
-            when {
-                idea.url != "" -> imageLink.setImageResource(R.drawable.ic_active_link)
+                imageViewing.setOnClickListener {
+                    val currentPosition = adapterPosition
+                    if (currentPosition != RecyclerView.NO_POSITION) {
+                        val item = adapter.listIdea[currentPosition]
+                        adapter.viewingBtnClickListener?.onViewingBtnClicked(item)
+                    }
+
+                }
+                imageAutor.setOnClickListener {
+                    val currentPosition = adapterPosition
+                    if (currentPosition != RecyclerView.NO_POSITION) {
+                        val item = adapter.listIdea[currentPosition]
+                        adapter.autorBtnClickListener?.onAutorBtnClicked(item)
+                    }
+                }
+                imageLink.setOnClickListener {
+                    val currentPosition = adapterPosition
+                    if (currentPosition != RecyclerView.NO_POSITION) {
+                        val item = adapter.listIdea[currentPosition]
+                        adapter.linkBtnClickListener?.onLinkBtnClickListener(item)
+                    }
+                }
             }
 
-            when {
-                idea.likeActionPerforming -> imageLike.setImageResource(R.drawable.like_wating)
-                idea.isLike -> {
+        }
+
+        fun bind(idea: IdeaModel) {
+            with(itemView) {
+                nameAutor.text = idea.autor.username
+                when (idea.autor.userType) {
+                    UserType.HATER -> {
+                        textBadge.text = context.getString(R.string.hater)
+                        textBadge.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
+                    }
+                    UserType.PROMOTER -> {
+                        textBadge.text = context.getString(R.string.promoter)
+                        textBadge.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
+                    }
+                }
+                when (idea.autor.attachment?.mediaType) {
+                    AttachmentType.IMAGE -> loadImageAutor(
+                        imageAutor,
+                        idea.autor.attachment.urlUser
+                    )
+                }
+                textDate.text = convertDateToString(idea.date)
+                textIdea.text = idea.ideaText
+                textLike.text = idea.like.toString()
+                textDisLike.text = idea.disLike.toString()
+                when {
+                    idea.url != "" -> imageLink.setImageResource(R.drawable.ic_active_link)
+                }
+
+                when {
+                    idea.likeActionPerforming -> imageLike.setImageResource(R.drawable.like_wating)
+                    idea.isLike -> {
+                        imageLike.setImageResource(R.drawable.like_active)
+                        textLike.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
+                    }
+
+                    else -> {
+                        imageLike.setImageResource(R.drawable.like_no_active)
+                        textLike.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
+                    }
+                }
+                when {
+                    idea.DisLikeActionPerforming -> imageDisLike.setImageResource(R.drawable.dislike_wating)
+                    idea.isDisLike -> {
+                        imageDisLike.setImageResource(R.drawable.dislike_active)
+                        textDisLike.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
+                    }
+                    else -> {
+                        imageDisLike.setImageResource(R.drawable.dislike_no_active)
+                        textDisLike.setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.colorBlack
+                            )
+                        )
+                    }
+                }
+                if (idea.attachment != null) {
+                    when (idea.attachment.mediaType) {
+                        AttachmentType.IMAGE -> loadImage(imageIdea, idea.attachment.url)
+                    }
+                } else {
+                    imageIdea.setImageResource(0)
+                }
+
+
+            }
+
+        }
+
+        fun bindLike(idea: IdeaModel) {
+            with(itemView){
                     imageLike.setImageResource(R.drawable.like_active)
                     textLike.setTextColor(ContextCompat.getColor(context, R.color.colorGreen))
-                }
+                    textLike.text = idea.like.toString()
 
-                else -> {
-                    imageLike.setImageResource(R.drawable.like_no_active)
-                    textLike.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
-                }
             }
-            when {
-                idea.DisLikeActionPerforming -> imageDisLike.setImageResource(R.drawable.dislike_wating)
-                idea.isDisLike -> {
+        }
+        fun binddisLike(idea: IdeaModel) {
+            with(itemView){
                     imageDisLike.setImageResource(R.drawable.dislike_active)
                     textDisLike.setTextColor(ContextCompat.getColor(context, R.color.colorRed))
-                }
-                else -> {
-                    imageDisLike.setImageResource(R.drawable.dislike_no_active)
-                    textDisLike.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
-                }
+                    textDisLike.text = idea.disLike.toString()
             }
-            if (idea.attachment != null) {
-                when (idea.attachment.mediaType) {
-                    AttachmentType.IMAGE -> loadImage(imageIdea, idea.attachment.url)
-                }
-            } else{
-                imageIdea.setImageResource(0)
-            }
-
-
         }
 
+
+        private fun loadImage(photoImg: ImageView, imageUrl: String) {
+            Glide.with(photoImg.context)
+                .load(imageUrl)
+                .into(photoImg)
+        }
+
+        private fun loadImageAutor(photoImg: ImageView, imageUrl: String) {
+            val requestOptions = RequestOptions()
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.error_image)
+            Glide.with(photoImg.context)
+                .applyDefaultRequestOptions(requestOptions)
+                .load(imageUrl)
+                .into(photoImg)
+        }
+
+
     }
-
-    private fun loadImage(photoImg: ImageView, imageUrl: String) {
-        Glide.with(photoImg.context)
-            .load(imageUrl)
-            .into(photoImg)
-    }
-
-    private fun loadImageAutor(photoImg: ImageView, imageUrl: String) {
-        val requestOptions = RequestOptions()
-            .placeholder(R.drawable.ic_launcher_background)
-            .error(R.drawable.error_image)
-        Glide.with(photoImg.context)
-            .applyDefaultRequestOptions(requestOptions)
-            .load(imageUrl)
-            .into(photoImg)
-    }
-
-
 }

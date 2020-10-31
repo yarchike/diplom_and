@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.martynov.diplom_adn.adapter.IdeaAdapter
+import com.martynov.diplom_adn.adapter.Payload
 import com.martynov.diplom_adn.data.AutorIdeaRequest
 import com.martynov.diplom_adn.model.IdeaModel
 import kotlinx.android.synthetic.main.activity_feed.*
@@ -150,8 +151,9 @@ class FeedActivity : AppCompatActivity(), IdeaAdapter.OnLikeBtnClickListener,
                     if (response.isSuccessful) {
                         item.updateIdea(response.body()!!)
                     }
+                    adapter?.notifyItemChanged(position, Payload.LIKE_CHANGE)
                 }
-                adapter?.notifyItemChanged(position)
+
             }
         }
     }
@@ -169,8 +171,9 @@ class FeedActivity : AppCompatActivity(), IdeaAdapter.OnLikeBtnClickListener,
                     if (response.isSuccessful) {
                         item.updateIdea(response.body()!!)
                     }
+                    adapter?.notifyItemChanged(position, Payload.DISLIKE_CHANGE)
                 }
-                adapter?.notifyItemChanged(position)
+
             }
         }
     }
