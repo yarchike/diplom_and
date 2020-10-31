@@ -46,7 +46,7 @@ class FeedActivity : AppCompatActivity(), IdeaAdapter.OnLikeBtnClickListener,
                         try {
                             val result = App.repository.getIdeaCount(iteams[iteams.size - 1].id)
                             if (result.isSuccessful) {
-                                val rezultIteam = result.body() as ArrayList<IdeaModel>
+                                val rezultIteam = result.body()  ?: emptyList()
                                 iteams.addAll(rezultIteam)
                                 adapter.newRecentIdea(iteams)
                                 with(container) {

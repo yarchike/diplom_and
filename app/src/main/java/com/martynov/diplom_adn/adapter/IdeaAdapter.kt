@@ -175,9 +175,12 @@ class IdeaViewHolder(val adapter: IdeaAdapter, view: View) : RecyclerView.ViewHo
                     textDisLike.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
                 }
             }
-            when (idea.attachment?.mediaType) {
-                AttachmentType.IMAGE -> loadImage(imageIdea, idea.attachment.url)
-
+            if (idea.attachment != null) {
+                when (idea.attachment.mediaType) {
+                    AttachmentType.IMAGE -> loadImage(imageIdea, idea.attachment.url)
+                }
+            } else{
+                imageIdea.setImageResource(0)
             }
 
 
