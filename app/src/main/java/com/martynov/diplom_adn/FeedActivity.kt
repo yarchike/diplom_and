@@ -42,7 +42,7 @@ class FeedActivity : AppCompatActivity(), IdeaAdapter.OnLikeBtnClickListener,
             }
 
             override fun onChildViewDetachedFromWindow(view: View) {
-                if (recyclerView.getChildAdapterPosition(view) == 0) {
+                if (recyclerView.getChildAdapterPosition(view) == iteams.lastIndex) {
                     lifecycleScope.launch {
                         try {
                             val result = App.repository.getIdeaCount(iteams[iteams.size - 1].id)
